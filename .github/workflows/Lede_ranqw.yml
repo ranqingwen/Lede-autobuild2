@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       REPO_BRANCH:
-        description: '（Lean源码）请选择源码分支'
+        description: '大雕源码'
         required: true
         default: 'master'
         type: choice
