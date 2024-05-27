@@ -230,7 +230,7 @@ jobs:
       with:
         delete_releases: true
         releases_keep_keyword: targz/Update
-        releases_keep_latest: 3
+        releases_keep_latest: 1
         delete_tags: true
         delete_workflows: true
         workflows_keep_day: 7
