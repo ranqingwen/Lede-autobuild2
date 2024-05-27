@@ -221,7 +221,7 @@ jobs:
       with:
         token: ${{ secrets.REPO_TOKEN }}
         repository: ${{ github.repository }}
-        retain_min: 2
+        retain_min: 1
     
     - name: 清理releases
       continue-on-error: true
