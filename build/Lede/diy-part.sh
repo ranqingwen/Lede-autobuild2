@@ -100,6 +100,7 @@ sha256sums
 version.buildinfo
 ipk.tar.gz
 profiles.json
+zzz_api
 openwrt-x86-64-generic-ext4-combined.img.gz
 openwrt-x86-64-generic-ext4-combined-efi.img.gz
 openwrt-x86-64-generic-ext4-rootfs.img.gz
