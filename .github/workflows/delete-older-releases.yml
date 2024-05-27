@@ -17,20 +17,20 @@ jobs:
     name: delete-workflow-runs
     steps:
     
-      - name: 删除workflow，清理工作流
-        uses: Mattraks/delete-workflow-runs@v2
-        with:
-          token: ${{ secrets.REPO_TOKEN }}
-          repository: ${{ github.repository }}
-          retain_days: ${{ env.RETAIN_DAYS }}
-          keep_minimum_runs: 0
+      #- name: 删除workflow，清理工作流
+       # uses: Mattraks/delete-workflow-runs@v2
+      #  with:
+      #    token: ${{ secrets.REPO_TOKEN }}
+      #    repository: ${{ github.repository }}
+      #    retain_days: ${{ env.RETAIN_DAYS }}
+      #    keep_minimum_runs: 0
 
     
       - name: 删除releases，清理旧版本，保留2个版本
         uses: dev-drprasad/delete-older-releases@v0.2.0
         with:
           repo: ${{ github.repository }}
-          keep_latest: 2
+          keep_latest: 1
           delete_tags: true
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
