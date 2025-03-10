@@ -18,8 +18,9 @@ Lede_ranqw    —    自动云编译
 - 🛑 默认用户名：root，无密码；
 - 🛑 如需要更改OpenWrt默认的IP，可以用root登录SSH下输入命令 vi /etc/config/network 修改文件；
 - 🛑 SSH界面也可输入 openwrt 打开系统快捷命令菜单
+- 
 
- 1. 在线更新固件或转换其他作者固件(zai xian sheng ji gu jian)
+1. 在线更新固件或转换其他作者固件(zai xian sheng ji gu jian)
 
 2. 修改后台IP和清空密码(xiu gai hou tai IP)
 
