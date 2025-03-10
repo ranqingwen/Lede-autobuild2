@@ -181,7 +181,18 @@ jobs:
         tag: a${{ env.date }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        body: ${{ env.Tongzhi_Date }}
+        body: |
+          ### 📒 固件信息
+          - ⚽ 固件名称：${{ env.FILE_NAME }}-${{ env.KERNEL }}
+          - 🔴 固件大小：Kernel=32M，rootfs=968M
+          - 💻 平台架构: ${{ env.PRODUCT_NAME }}
+          - 🌻 固件源码: ${{ env.REPO_URL }}
+          - 💝 源码分支: ${{ env.REPO_BRANCH }}
+          - 🚀 内核版本: ${{ env.KERNEL }}
+          - 🌐 默认地址：192.168.23.250
+          - 🔑 默认密码：空
+          - 🧊 更新时间：${{ env.date }}
+          - 🎈 源码哈希值：${{ env.hash }}
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
         
     - name: 发送[在线更新固件]至云端1
@@ -193,7 +204,18 @@ jobs:
         tag: ${{ env.Update_tag }}
         token: ${{ secrets.REPO_TOKEN }}
         allowUpdates: true
-        body: ${{ env.Tongzhi_Date }}
+        body: |
+          ### 📒 固件信息
+          - ⚽ 固件名称：${{ env.FILE_NAME }}-${{ env.KERNEL }}
+          - 🔴 固件大小：Kernel=32M，rootfs=968M
+          - 💻 平台架构: ${{ env.PRODUCT_NAME }}
+          - 🌻 固件源码: ${{ env.REPO_URL }}
+          - 💝 源码分支: ${{ env.REPO_BRANCH }}
+          - 🚀 内核版本: ${{ env.KERNEL }}
+          - 🌐 默认地址：192.168.23.250
+          - 🔑 默认密码：空
+          - 🧊 更新时间：${{ env.date }}
+          - 🎈 源码哈希值：${{ env.hash }}
         artifacts: "${{ env.BIN_PATH }}/*"
         
     - name: 发送[在线更新固件]至云端2
@@ -215,7 +237,18 @@ jobs:
         token: ${{ secrets.REPO_TOKEN }}
         artifacts: "Github_Api/*"
         allowUpdates: true
-        body: ${{ env.Tongzhi_Date }}
+        body: |
+          ### 📒 固件信息
+          - ⚽ 固件名称：${{ env.FILE_NAME }}-${{ env.KERNEL }}
+          - 🔴 固件大小：Kernel=32M，rootfs=968M
+          - 💻 平台架构: ${{ env.PRODUCT_NAME }}
+          - 🌻 固件源码: ${{ env.REPO_URL }}
+          - 💝 源码分支: ${{ env.REPO_BRANCH }}
+          - 🚀 内核版本: ${{ env.KERNEL }}
+          - 🌐 默认地址：192.168.23.250
+          - 🔑 默认密码：空
+          - 🧊 更新时间：${{ env.date }}
+          - 🎈 源码哈希值：${{ env.hash }}
 
     - name: Telegram或pushplus信息通知
       if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
