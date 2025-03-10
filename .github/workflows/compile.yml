@@ -192,7 +192,6 @@ jobs:
           - 🌐 默认地址：192.168.23.250
           - 🔑 默认密码：空
           - 🧊 更新时间：${{ env.date }}
-          - 🎈 源码哈希值：${{ env.hash }}
         artifacts: "${{ env.FIRMWARE_PATH }}/*"
         
     - name: 发送[在线更新固件]至云端1
@@ -215,7 +214,6 @@ jobs:
           - 🌐 默认地址：192.168.23.250
           - 🔑 默认密码：空
           - 🧊 更新时间：${{ env.date }}
-          - 🎈 源码哈希值：${{ env.hash }}
         artifacts: "${{ env.BIN_PATH }}/*"
         
     - name: 发送[在线更新固件]至云端2
@@ -248,7 +246,6 @@ jobs:
           - 🌐 默认地址：192.168.23.250
           - 🔑 默认密码：空
           - 🧊 更新时间：${{ env.date }}
-          - 🎈 源码哈希值：${{ env.hash }}
 
     - name: Telegram或pushplus信息通知
       if: env.PUSH_PLUS_TOKEN && env.INFORMATION_NOTICE == 'PUSH' || env.TELEGRAM_BOT_TOKEN && env.INFORMATION_NOTICE == 'TG'
