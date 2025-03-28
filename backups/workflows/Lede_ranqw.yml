@@ -26,7 +26,17 @@ on:
         default: 'x86_64'
         type: choice
         options:
+          - 'aarch64'
+          - 'asus_rt-acrh17'
+          - 'd-team_newifi-d2'
+          - 'p2w_r619ac-128m'
+          - 'phicomm_k2p'
+          - 'x86_32'
           - 'x86_64'
+          - 'xiaomi_mi-router-4a-gigabit'
+          - 'xiaomi_redmi-router-ac2100'
+          - 'xiaomi_redmi-router-ax6s'
+          - 'xiaoyu_xy-c5'
       CPU_SELECTION:
         description: 'CPU优选,增加编译速度'
         required: true
@@ -34,7 +44,6 @@ on:
         type: choice
         options:
           - '默认'
-          - '7763'
           - '8370C'
           - '8272CL'
           - '8171M'
@@ -45,8 +54,8 @@ on:
         type: choice
         options:
           - '关闭'
-          - 'Pushplus'
           - 'Telegram'
+          - 'Pushplus'
       SSH_ACTION:
         description: 'SSH远程配置固件'
         required: false
@@ -60,7 +69,7 @@ on:
       UPLOAD_RELEASE:
         description: '发布固件到 Github Releases'
         required: false
-        default: 'true'
+        default: 'false'
         type: boolean
       CACHEWRTBUILD_SWITCH:
         description: '缓存加速编译'
@@ -83,12 +92,6 @@ on:
   schedule:
     - cron: 0 4 * * 5
 
-#分钟字段：0 表示在分钟为UTC时间为0的时候执行，既整点。
-#小时字段：4 表示在小时为UTC时间为9的时候执行。北京时间+8既12点。
-#日期字段：* 日期，表示在每月的第几天执行。
-#月份字段：* 表示月份，即 1 到 12 月都会匹配。
-#星期字段：5 表示匹配周几，如果指定了日期情况下，星期的设置在将不起实际作用。此时为每周5
-   
 env:
   GITHUB_LINK: https://github.com/${{github.repository}}
   GIT_ACTOR: ${{github.actor}}
@@ -127,7 +130,7 @@ jobs:
         fi
     
     - name: 准备结束
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: 检测文件和对比上游版本
       run: |
@@ -215,27 +218,27 @@ jobs:
         cd openwrt
         source ${BUILD_PATH}/common.sh && Diy_xinxi
     
-    - name: 删除workflow，清理工作流
+    - name: 清理Actions空间
       continue-on-error: true
       if: env.REPO_TOKEN
       uses: small-5/delete-workflow-runs@main
       with:
         token: ${{ secrets.REPO_TOKEN }}
         repository: ${{ github.repository }}
-        retain_min: 2
+        retain_min: ${{ env.RETAIN_MINUTE }}
     
-#    - name: 清理releases
-#      continue-on-error: true
-#      if: env.REPO_TOKEN
-#      uses: ophub/delete-releases-workflows@main
-#      with:
-#        delete_releases: true
-#      #releases_keep_keyword: targz/Update
-#        releases_keep_latest: 1
-#        delete_tags: true
-#        delete_workflows: true
-#        workflows_keep_day: 7
-#        gh_token: ${{ secrets.REPO_TOKEN }}
+    - name: 清理releases
+      continue-on-error: true
+      if: env.REPO_TOKEN
+      uses: ophub/delete-releases-workflows@main
+      with:
+        delete_releases: true
+        releases_keep_keyword: targz/Update
+        releases_keep_latest: ${{ env.KEEP_LATEST }}
+        delete_tags: true
+        delete_workflows: false
+        workflows_keep_day: 90
+        gh_token: ${{ secrets.REPO_TOKEN }}
         
     - name: 触发启动"${{ matrix.target }}"开始编译
       id: gitpush
@@ -249,11 +252,11 @@ jobs:
       run: |
         if [[ "${{ env.INFORMATION_NOTICE }}" == "TG" ]]; then
           if [[ "${{steps.gitpush.outcome}}" == 'success' ]]; then
-            curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉编译脚本成功触发【${{matrix.target}}】文件夹编译【${REPO_BRANCH}分支的${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.WAREHOUSE_MAN}}仓库的#${{env.RUN_NUMBER}}号)！($(date +%Y年%m月%d号%H时%M分))💐" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
+            curl -k --data chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" --data "text=🎉 主人💕：您的编译脚本成功触发【${{matrix.target}}】文件夹编译【${REPO_BRANCH}分支的${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.WAREHOUSE_MAN}}仓库的#${{env.RUN_NUMBER}}号)！($(date +%Y年%m月%d号%H时%M分))💐" "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage"
           fi
         fi
         if [[ "${{ env.INFORMATION_NOTICE }}" == "PUSH" ]]; then
           if [[ "${{steps.gitpush.outcome}}" == 'success' ]]; then
-            curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="开始编译【${{matrix.target}}】" --data "content=🎉编译脚本成功触发【${{matrix.target}}】文件夹编译【${REPO_BRANCH}分支的${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.WAREHOUSE_MAN}}仓库的#${{env.RUN_NUMBER}}号)！($(date +%Y年%m月%d号%H时%M分))💐" "http://www.pushplus.plus/send"
+            curl -k --data token="${{ secrets.PUSH_PLUS_TOKEN }}" --data title="开始编译【${{matrix.target}}】" --data "content=🎉 主人💕：您的编译脚本成功触发【${{matrix.target}}】文件夹编译【${REPO_BRANCH}分支的${{env.TARGET_PROFILE}}】固件中,请耐心等待...... 😋(${{env.WAREHOUSE_MAN}}仓库的#${{env.RUN_NUMBER}}号)！($(date +%Y年%m月%d号%H时%M分))💐" "http://www.pushplus.plus/send"
           fi
         fi
